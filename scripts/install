@@ -32,7 +32,7 @@ CHECK_PATH
 
 CHECK_DOMAINPATH
 
-# CHECK_FINALPATH
+CHECK_FINALPATH
 
 ynh_app_setting_set $app domain $domain
 ynh_app_setting_set $app path $path
@@ -43,8 +43,8 @@ ynh_app_setting_set $app language $language
 
 GENERATE_DB $app	# Créer une base de données et un utilisateur dédié au nom de l'app.
 
-echo "Nom de l'application $app"
-echo "Nom de l'application $final_path"
+echo "Nom de application $app"
+echo "Nom final path $final_path"
 
 # Crée le repertoire de destination et stocke son emplacement.
 sudo mkdir "$final_path"
