@@ -1,6 +1,6 @@
 {
-	"name": "SPIPold",
-	"id": "spipold",
+	"name": "SPIP2",
+	"id": "spip2",
 	"packaging_format": 1,
 	"description": {
 		"en": "SPIP - publishing system for the Internet",
@@ -40,8 +40,8 @@
 					"en": "Choose a path for SPIP",
 					"fr": "Choisissez un chemin pour SPIP"
 				},
-				"example": "/spipold",
-				"default": "/spipold"
+				"example": "/spip2",
+				"default": "/spip2"
 			},
 			{
 				"name": "admin",
