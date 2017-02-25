@@ -40,8 +40,8 @@
 					"en": "Choose a path for SPIP",
 					"fr": "Choisissez un chemin pour SPIP"
 				},
-				"example": "/spip2",
-				"default": "/spip2"
+				"example": "/monspip2",
+				"default": "/monspip2"
 			},
 			{
 				"name": "admin",
