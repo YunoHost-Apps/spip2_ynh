@@ -49,6 +49,9 @@ ynh_app_setting_set $app final_path $final_path
 
 SETUP_SOURCE "spip-2.1.zip"
 
+echo "Nom de l'application $app"
+echo "Nom de l'application $final_path"
+
 # Set permissions to spip directory
 sudo chown -R www-data: $final_path
 
