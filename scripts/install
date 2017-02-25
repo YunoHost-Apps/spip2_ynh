@@ -58,7 +58,7 @@ sudo chown -R www-data: $final_path
 echo -e "127.0.0.1 $domain #SPIP" | sudo tee -a /etc/hosts
 
 # Et copie le fichier de config nginx
-# sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/$app.conf
+sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/$app.conf
 
 # Modifie les variables dans le fichier de configuration nginx
 sudo sed -i "s@__PATHTOCHANGE__@$path@g" /etc/nginx/conf.d/$domain.d/$app.conf
