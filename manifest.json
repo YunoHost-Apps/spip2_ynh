@@ -1,6 +1,6 @@
 {
-	"name": "SPIP2",
-	"id": "spip2",
+	"name": "SPIPold",
+	"id": "spipold",
 	"packaging_format": 1,
 	"description": {
 		"en": "SPIP - publishing system for the Internet",
