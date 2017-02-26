@@ -72,7 +72,7 @@ POOL_FPM
 sudo cp ../conf/connect.php $final_path/config/connect.php
 #sudo cp ../conf/mes_options.php $final_path/config/mes_options.php
 
-# Changer les variables du ficher de configuration de SPIP
+# Changer les variables du fichier de configuration de SPIP
 sudo sed -i "s/__DB_USER__/$db_user/g" $final_path/config/connect.php
 sudo sed -i "s/__DB_PWD__/$db_pwd/g" $final_path/config/connect.php                                                                          
 																							 
