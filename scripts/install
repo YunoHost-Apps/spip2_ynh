@@ -11,7 +11,7 @@ CLEAN_SETUP () {
 	# Clean hosts
 	sudo sed -i '/#SPIP/d' /etc/hosts
 }
-TRAP_ON	# Active trap to stop the script if an error is detected.ée.
+TRAP_ON	# Active trap to stop the script if an error is detected.
 
 domain=$YNH_APP_ARG_DOMAIN
 path=$YNH_APP_ARG_PATH
