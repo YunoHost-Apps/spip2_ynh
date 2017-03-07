@@ -3,16 +3,15 @@
 # Exit on command errors and treat unset variables as an error
 set -eu
 
-source .fonctions	# Charge les fonctions génériques habituellement utilisées dans le script
-# Source app helpers
-source /usr/share/yunohost/helpers
+source .fonctions	# Loads the generic functions usually used in the script
+source /usr/share/yunohost/helpers # Source app helpers
 
 CLEAN_SETUP () {
-# Nettoyage des résidus d'installation non pris en charge par le script remove.
+	# Clean installation residues that are not supported by the remove script.
 	# Clean hosts
 	sudo sed -i '/#SPIP/d' /etc/hosts
 }
-TRAP_ON	# Active trap pour arrêter le script si une erreur est détectée.
+TRAP_ON	# Active trap to stop the script if an error is detected.ée.
 
 domain=$YNH_APP_ARG_DOMAIN
 path=$YNH_APP_ARG_PATH
@@ -40,9 +39,9 @@ ynh_app_setting_set $app is_public $is_public
 ynh_app_setting_set $app language $language
 #ynh_app_setting_set $app multisite $multisite
 
-GENERATE_DB $app	# Créer une base de données et un utilisateur dédié au nom de l'app.
+GENERATE_DB $app	# Create a database and a dedicated user in the app name
 
-# Crée le repertoire de destination et stocke son emplacement.
+# Creates the destination directory and stores its location.
 sudo mkdir "$final_path"
 ynh_app_setting_set $app final_path $final_path
 
@@ -53,10 +52,10 @@ sudo chown -R www-data: $final_path
 
 echo -e "127.0.0.1 $domain #SPIP" | sudo tee -a /etc/hosts
 
-# Et copie le fichier de config nginx
+# Copy nginx configuration
 sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/$app.conf
 
-# Modifie les variables dans le fichier de configuration nginx
+# Modif the variables in the nginx configuration file
 sudo sed -i "s@__PATHTOCHANGE__@$path@g" /etc/nginx/conf.d/$domain.d/$app.conf
 sudo sed -i "s@__FINALPATH__@$final_path@g" /etc/nginx/conf.d/$domain.d/$app.conf
 sudo sed -i "s@__NAMETOCHANGE__@$app@g" /etc/nginx/conf.d/$domain.d/$app.conf
@@ -69,9 +68,8 @@ fi
 POOL_FPM
 
 sudo cp ../conf/connect.php $final_path/config/connect.php
-#sudo cp ../conf/mes_options.php $final_path/config/mes_options.php
 
-# Changer les variables du fichier de configuration de SPIP
+# Change SPIP configuration file variables
 sudo sed -i "s/__DB_USER__/$db_user/g" $final_path/config/connect.php
 sudo sed -i "s/__DB_PWD__/$db_pwd/g" $final_path/config/connect.php                                                                          
 																							 
@@ -79,7 +77,7 @@ db_md5=$(echo $db_pwd | md5sum | awk '{print $1}')
 db_sha=$(echo $db_pwd | openssl dgst -sha1 -hmac "key" | awk -F'= ' {'print $2'})
 language="$(echo $language | head -c 2)"
 
-# Changer les informations de la tables spip_auteurs
+# Change spip_auteurs table informations
 sudo sed -i "s@__ADMIN_SPIP__@$admin_spip@g" ../conf/sql/spip.sql
 sudo sed -i "s@__PATH__@$path@g" ../conf/sql/spip.sql
 sudo sed -i "s@__DB_USER__@$db_user@g" ../conf/sql/spip.sql
@@ -101,25 +99,22 @@ do
 	sudo sed -i "s/__ALEA_FUTUR__/$j/g" ../conf/sql/spip.sql
 done
 
-# Charger la structure des tables dans la base.
+# Load the tables structure into the database.
 mysql --debug-check -u $db_user -p$db_pwd $db_user < ../conf/sql/spip.sql
 
-# Donne un accès public pour curl
-ynh_app_setting_set $app unprotected_uris "/"
+# Setup SSOwat
+ynh_app_setting_set "$app" is_public "$is_public"
+if [ "$is_public" = "Yes" ];
+then
+  ynh_app_setting_set "$app" unprotected_uris "/"
+fi
 
-# Régénère la configuration de SSOwat
+# Reload SSOwat configuration
 sudo yunohost app ssowatconf
 
 # Reload Nginx and regenerate SSOwat conf
 sudo service php5-fpm restart
 sudo service nginx reload
 
-if [ "$is_public" = "No" ];
-then
-	# Retire l'accès public
-	ynh_app_setting_delete $app unprotected_uris
-	sudo yunohost app ssowatconf
-fi
-
-# Nettoyer hosts
+# clean hosts
 sudo sed -i '/#SPIP/d' /etc/hosts
