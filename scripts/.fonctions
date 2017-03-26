@@ -78,7 +78,6 @@ GENERATE_DB () {	# Create a database and a dedicated user in the name of the app
 	ynh_app_setting_set $app mysqlpwd $db_pwd
 }
 
-
 SETUP_SOURCE () {	# Download source, decompress and copu into $final_path
 	src=$(cat ../sources/source_md5 | awk -F' ' {'print $2'})
 	sudo wget -nv -i ../sources/source_url -O $src
