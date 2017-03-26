@@ -57,3 +57,5 @@ fi
 
 # Reload Nginx
 sudo service nginx reload
+sudo service php5-fpm reload
+sudo yunohost app ssowatconf
